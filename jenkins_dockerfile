@@ -1,0 +1,12 @@
+FROM amazoncorretto:17
+
+USER root
+
+RUN yum update -y && \
+    yum install -y wget git && \
+    wget -O /tmp/jenkins.war https://get.jenkins.io/war-stable/2.452.4/jenkins.war
+RUN useradd -m -d /var/jenkins_home jenkins
+USER jenkins
+EXPOSE 8080
+VOLUME ["/var/jenkins_home"]
+CMD ["java", "-jar", "/tmp/jenkins.war", "--httpPort=8080"]
